@@ -57,6 +57,7 @@ public class DBAutoManager {
     }
 
     public void run() {
+
         Set<Class<?>> classes = new HashSet<>();
         getPackageScan().add(mainPackage);
 //        mainPackage
