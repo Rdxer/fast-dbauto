@@ -24,7 +24,7 @@ public class AutoGenByMySQL extends BaseAutoGen {
         String fieldName = fieldMeta.getName();
 
         // 列名
-        sql.append("alter table %s add column ".formatted(tableMeta.getName()));
+        sql.append(String.format("alter table %s add column ", tableMeta.getName()));
         sql.append(fieldName);
         sql.append(" ");
         // 是否是全自定义
@@ -35,7 +35,7 @@ public class AutoGenByMySQL extends BaseAutoGen {
             // 拼接推断的数据类型
             sql.append(fieldMeta.getDbtype());
             if (StringEx.hasText(fieldMeta.getLen())) {
-                sql.append("(%s)".formatted(fieldMeta.getLen()));
+                sql.append(String.format("(%s)", fieldMeta.getLen()));
             }
             sql.append(" ");
             // 主键
@@ -55,11 +55,11 @@ public class AutoGenByMySQL extends BaseAutoGen {
             }
             // 是否 唯一性
             if (fieldMeta.isUnique()) {
-                otherSql.append("ALTER TABLE %s ADD UNIQUE (%s);".formatted(tableMeta.getName(), fieldName));
+                otherSql.append(String.format("ALTER TABLE %s ADD UNIQUE (%s);", tableMeta.getName(), fieldName));
             }
             // 拼接注释
             if (StringEx.hasText(fieldMeta.getComment())) {
-                sql.append("comment '%s'".formatted(tableMeta.getComment()));
+                sql.append(String.format("comment '%s'", tableMeta.getComment()));
                 sql.append(" ");
             }
         }
@@ -69,18 +69,17 @@ public class AutoGenByMySQL extends BaseAutoGen {
         System.out.println(sql);
         jdbcTemplate.execute(sql.toString());
         System.out.println(otherSql);
-        if (!otherSql.isEmpty()) {
+        if (StringEx.hasText(otherSql)) {
             jdbcTemplate.execute(otherSql.toString());
         }
     }
 
     @Override
     protected List<String> getAllFieldByTable(JdbcTemplate jdbcTemplate, TableMeta tableMeta) {
-        String fieldSQL = """
-                select COLUMN_NAME as name
-                from information_schema.COLUMNS
-                where table_name =  '%s' and TABLE_SCHEMA =  (%s);
-                """.formatted(tableMeta.getName(), "select database()");
+        String fieldSQL = "select COLUMN_NAME as name\n" +
+                "from information_schema.COLUMNS\n" +
+                "where table_name =  '%s' and TABLE_SCHEMA =  (%s);";
+        fieldSQL = String.format(fieldSQL, tableMeta.getName(), "select database()");
 
         List<Map<String, Object>> list = jdbcTemplate.queryForList(fieldSQL);
         return list.stream().map(v -> v.get("name").toString()).collect(Collectors.toList());
@@ -92,10 +91,7 @@ public class AutoGenByMySQL extends BaseAutoGen {
         StringBuilder otherSql = new StringBuilder();
 
         // 1. 名
-        sql.append("""
-                    create table %s
-                (
-                    """.formatted(tableMeta.getName()));
+        sql.append(String.format("  create table %s ( ", tableMeta.getName()));
 
         // 2. 字段
         for (FieldMeta fieldMeta : tableMeta.getFieldList()) {
@@ -114,7 +110,7 @@ public class AutoGenByMySQL extends BaseAutoGen {
             // 拼接推断的数据类型
             sql.append(fieldMeta.getDbtype());
             if (StringEx.hasText(fieldMeta.getLen())) {
-                sql.append("(%s)".formatted(fieldMeta.getLen()));
+                sql.append(String.format("(%s)", fieldMeta.getLen()));
             }
             sql.append(" ");
             // 主键
@@ -134,11 +130,11 @@ public class AutoGenByMySQL extends BaseAutoGen {
             }
             // 是否 唯一性
             if (fieldMeta.isUnique()) {
-                otherSql.append("ALTER TABLE %s ADD UNIQUE (%s);".formatted(tableMeta.getName(), fieldName));
+                otherSql.append(String.format("ALTER TABLE %s ADD UNIQUE (%s);", tableMeta.getName(), fieldName));
             }
             // 拼接注释
             if (StringEx.hasText(fieldMeta.getComment())) {
-                sql.append("comment '%s'".formatted(tableMeta.getComment()));
+                sql.append(String.format("comment '%s'", tableMeta.getComment()));
                 sql.append(" ");
             }
             sql.append(",");
@@ -148,7 +144,7 @@ public class AutoGenByMySQL extends BaseAutoGen {
         sql.append(") ");
 
         if (StringEx.hasText(tableMeta.getComment())) {
-            sql.append(" comment '%s'".formatted(tableMeta.getComment()));
+            sql.append(String.format(" comment '%s'", tableMeta.getComment()));
         }
 
         sql.append(" engine = InnoDB;");
@@ -158,7 +154,7 @@ public class AutoGenByMySQL extends BaseAutoGen {
         System.out.println(sql);
         jdbcTemplate.execute(sql.toString());
         System.out.println(otherSql);
-        if (!otherSql.isEmpty()) {
+        if (StringEx.hasText(otherSql)) {
             jdbcTemplate.execute(otherSql.toString());
         }
     }
@@ -171,9 +167,7 @@ public class AutoGenByMySQL extends BaseAutoGen {
     @Override
     protected List<String> getAllTableNameList(JdbcTemplate jdbcTemplate, TransactionTemplate transactionTemplate) {
 
-        String findAllTableSQL = """
-                    show tables;
-                """;
+        String findAllTableSQL = "show tables;";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(findAllTableSQL);
 
         if (list.isEmpty()) {
@@ -182,7 +176,8 @@ public class AutoGenByMySQL extends BaseAutoGen {
         if (list.get(0).keySet().size() == 0) {
             return new ArrayList<>();
         }
-        String key = list.get(0).keySet().stream().toList().get(0);
+
+        String key = list.get(0).keySet().iterator().next();
 
         return list.stream().map(v -> v.get(key).toString()).filter(StringUtils::hasText).collect(Collectors.toList());
     }

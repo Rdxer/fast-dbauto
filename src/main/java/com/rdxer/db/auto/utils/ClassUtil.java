@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -50,7 +51,7 @@ public class ClassUtil {
                     if ("file".equals(protocol)) {
 //                        log.info("file类型的扫描:" + pack);
                         // 获取包的物理路径
-                        String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
+                        String filePath = URLDecoder.decode(url.getFile(), StandardCharsets.UTF_8);
                         // 以文件的方式扫描整个包下的文件 并添加到集合中
                         findAndAddClassesInPackageByFile(packageName, filePath, recursive, classes);
                     } else if ("jar".equals(protocol)) {
@@ -133,6 +134,10 @@ public class ClassUtil {
         // 如果存在 就获取包下的所有文件 包括目录
         // 自定义过滤规则 如果可以循环(包含子目录) 或则是以.class结尾的文件(编译好的java类文件)
         File[] dirfiles = dir.listFiles(file -> (recursive && file.isDirectory()) || (file.getName().endsWith(".class")));
+        if (dirfiles == null) {
+            log.warn(String.format("%s 没有任何 类", packageName));
+            return;
+        }
         // 循环所有文件
         for (File file : dirfiles) {
             // 如果是目录 则继续扫描

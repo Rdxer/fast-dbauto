@@ -82,7 +82,7 @@ public class DbFieldTypeUtils {
                 fieldMeta.setLen("255");
             }
         } else {
-            throw new RuntimeException("不支持此字段~ %s : %s".formatted(fieldMeta.getName(), fieldMeta.getField().getName()));
+            throw new RuntimeException(String.format("不支持此字段~ %s : %s", fieldMeta.getName(), fieldMeta.getField().getName()));
         }
     }
 
@@ -145,7 +145,7 @@ public class DbFieldTypeUtils {
                 fieldMeta.setLen("255");
             }
         } else {
-            throw new RuntimeException("不支持此字段~ %s : %s".formatted(fieldMeta.getName(), fieldMeta.getField().getName()));
+            throw new RuntimeException(String.format("不支持此字段~ %s : %s", fieldMeta.getName(), fieldMeta.getField().getName()));
         }
     }
 }

@@ -15,6 +15,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DBAutoManager {
@@ -51,7 +52,7 @@ public class DBAutoManager {
     }
 
     public DBAutoManager addPackageScan(String... packageScan) {
-        this.packageScan.addAll(Arrays.stream(packageScan).toList());
+        this.packageScan.addAll(Arrays.stream(packageScan).collect(Collectors.toList()));
         return this;
     }
 
