@@ -4,6 +4,8 @@ fast - dbauto by springboot
 自动建表工具
 目前支持 MySql，PGSql。
 
+[demo](https://github.com/Rdxer/demo-fast-dbauto-dbmigration.git)
+
 自动识别数据类型：
     
 MySql：
