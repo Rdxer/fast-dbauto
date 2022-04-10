@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 public class AutoGenByMySQL extends BaseAutoGen {
     Logger logger = LoggerFactory.getLogger(AutoGenByMySQL.class);
+
     @Override
     protected void creteField(JdbcTemplate jdbcTemplate, TableMeta tableMeta, FieldMeta fieldMeta) {
         StringBuilder sql = new StringBuilder();
@@ -90,7 +91,7 @@ public class AutoGenByMySQL extends BaseAutoGen {
     @Override
     protected void creteTable(JdbcTemplate jdbcTemplate, TransactionTemplate transactionTemplate, TableMeta tableMeta) {
         StringBuilder sql = new StringBuilder();
-        StringBuilder otherSql = new StringBuilder();
+        List<String> otherSqlList = new ArrayList<>();
 
         // 1. 名
         sql.append(String.format("  create table %s ( ", tableMeta.getName()));
@@ -132,7 +133,7 @@ public class AutoGenByMySQL extends BaseAutoGen {
             }
             // 是否 唯一性
             if (fieldMeta.isUnique()) {
-                otherSql.append(String.format("ALTER TABLE %s ADD UNIQUE (%s);", tableMeta.getName(), fieldName));
+                otherSqlList.add(String.format("ALTER TABLE %s ADD UNIQUE (%s);\n", tableMeta.getName(), fieldName));
             }
             // 拼接注释
             if (StringEx.hasText(fieldMeta.getComment())) {
@@ -152,12 +153,16 @@ public class AutoGenByMySQL extends BaseAutoGen {
         sql.append(" engine = InnoDB;");
         sql.append("\n");
 
-        // 注释
+        // 建表
         logger.info(sql.toString());
         jdbcTemplate.execute(sql.toString());
-        logger.info(otherSql.toString());
-        if (StringEx.hasText(otherSql)) {
-            jdbcTemplate.execute(otherSql.toString());
+
+        // field
+        logger.info(String.join("",otherSqlList));
+        for (String s : otherSqlList) {
+            if (StringEx.hasText(s)) {
+                jdbcTemplate.execute(s);
+            }
         }
     }
 

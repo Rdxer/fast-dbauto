@@ -9,7 +9,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import({
-        SpringContextUtil.class,
         DBAutoManager.class,
         AutoRunner.class,
         GetPackage.class,
