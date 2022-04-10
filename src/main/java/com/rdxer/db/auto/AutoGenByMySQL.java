@@ -4,6 +4,8 @@ import com.rdxer.db.auto.model.FieldMeta;
 import com.rdxer.db.auto.model.TableMeta;
 import com.rdxer.db.auto.utils.DbFieldTypeUtils;
 import com.rdxer.db.auto.utils.StringEx;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.StringUtils;
@@ -14,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AutoGenByMySQL extends BaseAutoGen {
-
+    Logger logger = LoggerFactory.getLogger(AutoGenByMySQL.class);
     @Override
     protected void creteField(JdbcTemplate jdbcTemplate, TableMeta tableMeta, FieldMeta fieldMeta) {
         StringBuilder sql = new StringBuilder();
@@ -66,9 +68,9 @@ public class AutoGenByMySQL extends BaseAutoGen {
 
         sql.append(";");
         // 注释
-        System.out.println(sql);
+        logger.info(sql.toString());
         jdbcTemplate.execute(sql.toString());
-        System.out.println(otherSql);
+        logger.info(otherSql.toString());
         if (StringEx.hasText(otherSql)) {
             jdbcTemplate.execute(otherSql.toString());
         }
@@ -151,9 +153,9 @@ public class AutoGenByMySQL extends BaseAutoGen {
         sql.append("\n");
 
         // 注释
-        System.out.println(sql);
+        logger.info(sql.toString());
         jdbcTemplate.execute(sql.toString());
-        System.out.println(otherSql);
+        logger.info(otherSql.toString());
         if (StringEx.hasText(otherSql)) {
             jdbcTemplate.execute(otherSql.toString());
         }

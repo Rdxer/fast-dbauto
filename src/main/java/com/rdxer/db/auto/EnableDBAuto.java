@@ -11,6 +11,7 @@ import java.lang.annotation.*;
 @Import({
         SpringContextUtil.class,
         DBAutoManager.class,
+        AutoRunner.class,
         GetPackage.class,
 })
 public @interface EnableDBAuto {

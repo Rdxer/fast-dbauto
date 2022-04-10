@@ -5,6 +5,8 @@ import com.rdxer.db.auto.model.FieldMeta;
 import com.rdxer.db.auto.model.TableMeta;
 import com.rdxer.db.auto.utils.NameEx;
 import com.rdxer.db.auto.utils.StringEx;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
@@ -14,10 +16,12 @@ import java.util.List;
 
 public abstract class BaseAutoGen {
 
+    Logger logger = LoggerFactory.getLogger(BaseAutoGen.class);
+
+
     public void autoGen(List<TableMeta> tableMetas, List<Class<?>> needAutoClass, JdbcTemplate jdbcTemplate, TransactionTemplate transactionTemplate) {
         List<String> tableNameList = getAllTableNameList(jdbcTemplate, transactionTemplate);
-//        System.out.println("---");
-//        tableNameList.forEach(System.out::println);
+
 
         // 预处理
         for (TableMeta tableMeta : tableMetas) {

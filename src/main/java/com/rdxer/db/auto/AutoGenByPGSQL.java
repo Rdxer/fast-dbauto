@@ -4,6 +4,8 @@ import com.rdxer.db.auto.model.FieldMeta;
 import com.rdxer.db.auto.model.TableMeta;
 import com.rdxer.db.auto.utils.DbFieldTypeUtils;
 import com.rdxer.db.auto.utils.StringEx;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.StringUtils;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 
 public class AutoGenByPGSQL extends BaseAutoGen {
 
+    Logger logger = LoggerFactory.getLogger(AutoGenByPGSQL.class);
 
     private String findAllTableSQL = "select tablename from pg_tables where schemaname = 'public';";
 
@@ -62,7 +65,7 @@ public class AutoGenByPGSQL extends BaseAutoGen {
 
         sql.append(";");
         sql.append(commentsSql);
-        System.out.println(sql);
+        logger.info(sql.toString());
         jdbcTemplate.execute(sql.toString());
     }
 
@@ -146,7 +149,7 @@ public class AutoGenByPGSQL extends BaseAutoGen {
 
         // 注释
         sql.append(commentsSql);
-        System.out.println(sql);
+        logger.info(sql.toString());
         jdbcTemplate.execute(sql.toString());
     }
 
