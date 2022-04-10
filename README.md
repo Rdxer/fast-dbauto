@@ -1,4 +1,5 @@
-# fast-dbauto
+# fast-dbauto [![Maven Central](https://img.shields.io/maven-central/v/com.rdxer/fast-dbauto.svg)](https://search.maven.org/search?q=g:com.rdxer%20a:fast-dbauto)
+
 fast - dbauto by springboot
 自动建表工具
 目前支持 MySql，PGSql。
@@ -21,11 +22,12 @@ PGSql：
 
 # 集成
 ## 1. 添加依赖
+最新版：[![Maven Central](https://img.shields.io/maven-central/v/com.rdxer/fast-dbauto.svg)](https://search.maven.org/search?q=g:com.rdxer%20a:fast-dbauto)
 
     <dependency>
         <groupId>com.rdxer</groupId>
         <artifactId>fast-dbauto</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>请替换为最新版</version>
     </dependency>
 
 ## 2. 配置`application.properties`
