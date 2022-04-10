@@ -114,10 +114,10 @@ public class ClassUtil {
     /**
      * 以文件的形式来获取包下的所有Class
      *
-     * @param packageName
-     * @param packagePath
-     * @param recursive
-     * @param classes
+     * @param packageName 包名
+     * @param packagePath 路径
+     * @param recursive  递归
+     * @param classes  类集合
      */
     public static void findAndAddClassesInPackageByFile(
             String packageName,
@@ -161,11 +161,13 @@ public class ClassUtil {
     }
 
     /**
-     * 取出list对象中的某个属性的值作为list返回
+     * 取出list对象中的某个属性的值作为list返回，类似 map
      *
-     * @param objList
-     * @param fieldName
-     * @return
+     * @param objList 对象数组
+     * @param fieldName 字段名
+     * @param <T>  输入类型
+     * @param <E>  输出类型
+     * @return 属性值数组
      */
     public static <T, E> List<E> getPropertyValueList(List<T> objList, String fieldName) {
         List<E> list = new ArrayList<E>();
@@ -185,8 +187,8 @@ public class ClassUtil {
     /**
      * List中的string转换为大写
      *
-     * @param list
-     * @return
+     * @param list 输入数组
+     * @return 转化后的数组
      */
     public static List<String> toLowerCase(List<String> list) {
         if (null == list || list.isEmpty()) {

@@ -60,9 +60,9 @@ public @interface AutoColumn {
     public String comment() default "" ;
 
     /**
-     * 长度
+     * 长度 1  or  1,1
      *
-     * @return
+     * @return 长度
      */
     public String len() default "" ;
 }

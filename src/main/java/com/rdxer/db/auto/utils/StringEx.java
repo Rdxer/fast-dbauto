@@ -1,16 +1,15 @@
 package com.rdxer.db.auto.utils;
 
-import org.springframework.lang.Nullable;
 
 import java.util.List;
 
 public class StringEx {
     /**
-     * 尾部
+     * 尾部  去除后缀
      *
-     * @param string
-     * @param suffixlist
-     * @return
+     * @param string  字符串
+     * @param suffixlist  后缀列表
+     * @return  新字符串
      */
     public static String trimTrailing(String string, List<String> suffixlist) {
 
@@ -26,11 +25,11 @@ public class StringEx {
     }
 
     /**
-     * 尾部
+     * 尾部  去除后缀
      *
-     * @param string
-     * @param suffix
-     * @return
+     * @param string 字符串
+     * @param suffix 后缀
+     * @return 新字符串
      */
     public static String trimTrailing(String string, String suffix) {
         if (string.endsWith(suffix)) {
@@ -47,7 +46,7 @@ public class StringEx {
         return !hasText(str);
     }
 
-    public static boolean hasText(@Nullable CharSequence str) {
+    public static boolean hasText(CharSequence str) {
         return (str != null && str.length() > 0 && containsText(str));
     }
 

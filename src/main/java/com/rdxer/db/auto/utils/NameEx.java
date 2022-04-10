@@ -19,7 +19,7 @@ public class NameEx {
      *  大驼峰
      * @param source
      *        下划线命名的字符串
-     *
+     * @return new name
      */
     public static String underlineToLowerCamel(String source) {
         return underlineToCamel(source, false);
@@ -30,7 +30,7 @@ public class NameEx {
      *  小驼峰
      * @param source
      *        下划线命名的字符串
-     *
+     * @return 新名称
      */
     public static String underlineToUpperCamel(String source) {
         return underlineToCamel(source, true);
@@ -62,8 +62,8 @@ public class NameEx {
     /***
      * 驼峰命名转为下划线命名 驼峰命名的字符串
      *
-     * @param para
-     *
+     * @param para 参数
+     * @return newname
      */
     public static String camelToUnderline(String para) {
         StringBuilder sb = new StringBuilder(para);
